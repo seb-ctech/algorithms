@@ -1,4 +1,10 @@
 from union_find import UnionFind
+import random
+import statistics
+import sys
+
+
+# Specification: https://coursera.cs.princeton.edu/algs4/assignments/percolation/specification.php
 
 class Percolation: 
 
@@ -14,7 +20,7 @@ class Percolation:
         for i in range(n+1):
           for j in range(n+1):
             self.sites.append(False)
-            print ("Created Site: " + str(i) + "x" + str(j))
+            # print ("Created Site: " + str(i) + "x" + str(j))
         self.quick_union = UnionFind(len(self.sites))
       else:
         raise ValueError(" 'n' must be bigger than 0 ")
@@ -49,7 +55,7 @@ class Percolation:
         if not self.is_open(row, col):
           self.sites[target_index] = True
           self.open_sites += 1
-          print("Opened Site: " + str(row) + "x" + str(col))
+          # print("Opened Site: " + str(row) + "x" + str(col))
           if row > 1:
             if row == self.size:
               self.quick_union.union(target_index, 1)
@@ -93,30 +99,48 @@ class PercolationStats:
   # perform independent trials on an n-by-n grid
   def __init__(self, n, trials):
     # exception ValueError
+    self.results = []
+    print("Running Percolation " + str(trials) + " times")
+    for i in range(int(trials)):
+      self.run_try(int(n))
+    # print(self.results)
+    pass
+
+  def run_try(self, n):
+    p = Percolation(n)
+    
+    while(not p.percolates()):
+      randx = random.randint(1, n)
+      randy = random.randint(1, n)
+      p.open_site(randx, randy)
+      
+    # print((p.number_of_open_sites()) / (n*n))
+    self.results.append((p.number_of_open_sites() / (n*n)))
     pass
 
   # sample mean of percolation threshold
-  def mean():
-    pass
+  def mean(self):
+    return statistics.mean(self.results)
 
   # sample standard deviation of percolation threshold
-  def stddev():
-    pass
+  def stddev(self):
+    return statistics.stdev(self.results)
   # low endpoint of 95% confidence interval
-  def confidenceLo():
-    pass
+  def confidenceLo(self):
+    dev = self.stddev()
+    return self.mean() - dev
   # high endpoint of 95% confidence interval
-  def confidenceHi():
+  def confidenceHi(self):
+    dev = self.stddev()
+    return self.mean() + dev
     pass
 
 if __name__ == "__main__":
-  print("Percolation")
-  n = 10
-  p = Percolation(n)
-  print("Perculates? -> " + str(p.percolates()))
-  for i in range(n):
-    p.open_site(i + 1, round(n/2))
-  print("Perculates? -> " + str(p.percolates()))
+  args = sys.argv[1:]
+  percolate_stats = PercolationStats(args[0], args[1])
+  print("Mean is: " + str(percolate_stats.mean()) + " and Standard Deviation is: " + str(percolate_stats.stddev()))
+  print("Low threshhold is: " + str(percolate_stats.confidenceLo()))
+  print("High threshhold is: " + str(percolate_stats.confidenceHi()))
 
   
   
