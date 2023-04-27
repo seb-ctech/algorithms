@@ -107,3 +107,55 @@ Social Interaction: system -> population | open site -> person | blocked site ->
 - Sites are in the same component if connected by open sites
 - Add a virtual root on the top for the top-most row and a virtual root on the bottom for the bottom-most row
 ( We try to push the new problem into the domain of our existing data-structure )
+
+
+## Analysis of Algorithms
+
+Analysis of Algorithms is both possible with observation and inference aswell as with mathematical models,
+however while they work in principle in practice they often require advanced mathematical concepts and are best left for the experts.
+Therefor we use an approximated model.
+
+### Order of Growth Classification
+
+The parameters that determine the runtime of an algorithms are often the patterns inside the algorithm in combination with the amount of data.
+Result in common classifications:
+
+- 1 (Constant): Statement / No Loops
+
+- log N: divide in half / binary search
+
+- N (Linear): loop / find the maximum
+
+- N log N (linearithmic):  divide and conquer / mergesort
+
+- N² (Quadratic): double loop / check all pairs
+
+- N³ (Cubic): Triple loop / check all triples
+
+- 2^N / N^2 / N! (Exponential): exhaustive search / check all subpairs
+
+Even nowadays we only can use Constant and LogN for Huge Data amounts (> Trilions of Data)
+
+### Theory of Algorithms
+
+- Design for the worst case
+- Randomize and depend on probabilistic guarantee
+
+#### Goals
+
+- Establish difficulty
+- Develop "optimal" algorithm
+
+#### Approach
+
+- Suppress details in analysis analyze "to within a constant factor"
+- Eliminate variability in input model by focusing on the worst case.
+
+Common misconception: Big O Notation is not equal to approximate model but defines the upper bound in the theory of algorithms.
+
+### Memory
+
+- Each data type occupies some memory
+- However arrays occupy N * Data  type
+- And objects and references have padding and object header / overhead to keep in mind
+- Modern systems are assumed to have 64-bit systems which can adress a huge range of values, but pointers take up more memory
